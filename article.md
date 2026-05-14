@@ -22,9 +22,9 @@ If serial correlation exists in a dynamic model then the standard errors are bia
 ### Detecting Serial Correlation
 There are several methods to test for serial correlation in residuals:
 
-1.  [**Durbin-Watson Test**: A simple statistic for first-order autocorrelation.]
-2.  [**Breusch-Godfrey Test**: A more general test that detects autocorrelation at higher lags.]
-3.  [**Autocorrelation Function (ACF)**: Plots correlations between residuals over different time lags.]
+1.  [Durbin-Watson Test: A simple statistic for first-order autocorrelation.]
+2.  [Breusch-Godfrey Test: A more general test that detects autocorrelation at higher lags.]
+3.  [Autocorrelation Function (ACF): Plots correlations between residuals over different time lags.]
 
 Let's examine serial correlation in a distributed lag model using data from FRED: [University of Michigan: Inflation Expectation (MICH)](https://fred.stlouisfed.org/series/MICH).
 
@@ -54,7 +54,7 @@ Newey-West Robust Standard Errors provides valid inference if we can't correct t
 
 Newey-West (aka OLS with HAC) adjusts standard errors for autocorrelation and heteroscedasticity. Surprisingly, the coefficients remain nearly unchanged. MICH_lag1 and MICH_lag2 remain insignificant, suggesting they are not contributing much explanatory power. The Durbin-Watson = 2.392, close to 2, indicating some reduction in autocorrelation.
 
-To diagnose serial correlation, we can plot the **Autocorrelation Function (ACF)** of the residuals.
+To diagnose serial correlation, we can plot the Autocorrelation Function (ACF) of the residuals.
 
 
 Autocorrelation Function (ACF) Plot confirms serial correlation. The spike at lag 1 indicates strong autocorrelation. Most of the other lags remain within the confidence bands, meaning the issue is primarily at lower lags. The plot supports the Breusch-Godfrey test result.
