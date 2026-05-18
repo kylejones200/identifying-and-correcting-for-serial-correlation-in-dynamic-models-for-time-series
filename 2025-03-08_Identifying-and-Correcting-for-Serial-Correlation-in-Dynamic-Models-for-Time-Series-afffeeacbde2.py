@@ -1,6 +1,5 @@
 # Description: Short example for Identifying and Correcting for Serial Correlation in Dynamic Models for Time Series.
 
-
 import logging
 from datetime import datetime
 
@@ -26,46 +25,35 @@ def get_fred_data(series_id, start_date="2000-01-01", end_date=None):
     return df.dropna()
 
 
-
 def main():
     # Fetch University of Michigan Consumer Sentiment Index (MICH)
     series_id = "MICH"
     mich_data = get_fred_data(series_id)
     mich_data = mich_data.pct_change().dropna()  # Convert to percentage change
-
     # Prepare DataFrame
     mich_data = mich_data.rename(columns={series_id: "MICH"})
     mich_data["Date"] = mich_data.index  # Ensure a date column for plotting
-
     # Create lagged MICH values
     for lag in range(1, 3):  # Include 2 lags
         mich_data[f"MICH_lag{lag}"] = mich_data["MICH"].shift(lag)
 
     # Drop missing values due to lagging
     mich_data.dropna(inplace=True)
-
     # Define independent and dependent variables
     X_lags = ["MICH", "MICH_lag1", "MICH_lag2"]
     X_matrix = sm.add_constant(mich_data[X_lags])  # Add intercept
     y_vector = mich_data["MICH"]  # Target is MICH itself (can be changed)
-
     # Fit a distributed lag model
     model = sm.OLS(y_vector, X_matrix).fit()
-
     # Perform the Breusch-Godfrey test for serial correlation
     bg_test = acorr_breusch_godfrey(model, nlags=2)
-
     logger.info(f"Breusch-Godfrey Test p-value: {bg_test[1]:.4f}")
-
     gls_model = GLS(y_vector, X_matrix).fit()
     logger.info(gls_model.summary())
-
     cochrane_orcutt = GLSAR(y_vector, X_matrix, rho=1).iterative_fit()
     logger.info(cochrane_orcutt.summary())
-
     model_robust = model.get_robustcov_results(cov_type="HAC", maxlags=2)
     logger.info(model_robust.summary())
-
     # Extract residuals
     residuals = model.resid
     # Plot ACF
