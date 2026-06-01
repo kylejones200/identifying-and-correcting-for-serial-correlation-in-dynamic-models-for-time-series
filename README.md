@@ -11,14 +11,7 @@ Serial correlation, also known as autocorrelation, occurs when the residuals (ϵ
 
 - ϵt is the error term at time t. - k is the lag order. - If ρ>0, we have positive serial correlation (errors move together in the same direction). - If ρ<0, we have negative serial correlation (errors alternate in sign).
 
-## About
 
-Place the code for this article in this repository.
-The original article export is saved as `article.md`.
-
-## Files
-
-Add your `.ipynb`, `.py`, `.yaml`, `.js`, `.ts`, or other project files here.
 
 ## Disclaimer
 
